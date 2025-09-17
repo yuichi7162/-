@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+<center>
+    <h1>レシピ検索結果</h1>
+    
+    <!-- <h2>アップロードされた画像</h2>
+    <img src= "{{ url_for('static', filename='vegetable_image/' + img_path.split('/')[-1]) }}" 
+        style="margin: 20px; vertical-align: bottom; width: 200px;"
+        alt="アップロードされた画像"> -->
+    
+    <h2>予測された食材</h2>
+    {% if predicted_ingredients %}
+    <ul>
+        {% for ingredient in predicted_ingredients %}
+        <li>{{ ingredient }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>予測された食材はありませんでした。</p>
+    {% endif %}
+
+    <h2>提案されたレシピ</h2>
+    {% if matching_recipes %}
+        {% for category, recipes in matching_recipes.items() %}
+            <h3>{{ category }} のレシピ</h3>
+            <ul>
+            {% for recipe in recipes %}
+                <li>
+                    <a href="{{ recipe.get('recipeUrl') }}" target="_blank">{{ recipe.get('recipeTitle', 'タイトルなし') }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>一致するレシピは見つかりませんでした。</p>
+    {% endif %}
+
+    <a href="/">トップページにもどる</a>
+</center>
+{% endblock %}
